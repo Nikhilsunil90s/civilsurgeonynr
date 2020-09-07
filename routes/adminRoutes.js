@@ -22,7 +22,7 @@ var upload  = multer({storage : storage});
 
 
 
-Routes.post("/tally-upload" , (req,res , next) => {
+Routes.post("/tally-upload" , isAuthenticated, (req,res , next) => {
     console.log( req.body);
     const tally = new Tally({
         total_sample_taken : req.body.sample_taken,
@@ -51,15 +51,15 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), (req,res,n
         //console.log(json[0]['Son_Wife_Daughter_Of'])
         for(let i = 0; i < json.length ; i++){
         var rep = new reports({
-            SRF_Number: json[i]['SRF_Number'],
-            Name: json[0]['Name'],
-            Son_Daughter_Wife_Of: json[i]['Son_Wife_Daughter_Of'],
-            Gender: json[i]['Gender'],
+            SRF_Number : json[i]['SRF_ID'],
+            Name: json[i]['Name'],
+            //Son_Daughter_Wife_Of: json[i]['Son_Wife_Daughter_Of'],
+            Sex: json[i]['Sex'],
             Address: json[i]['Address'],
-            Contact_Number: json[i]['Contact_Number'],
-            Date_Sample_Taken: json[i]['Date_of_Sample_Collection'],
-            Lab_Name: json[i]['Lab_Name'],
-            Sample_ID: json[i]['Sample_ID'],
+            Contact_No: json[i]['Contact_No'],
+            Date_of_collection_of_sample : json[i]['Date_of_collection_of_sample'],
+            Lab_where_sample_sent: json[i]['Lab_where_sample_sent'],
+            LAB_ID2 : json[i]['Lab_ID2'],
             Result: json[i]['Result']
         })
         rep.save();

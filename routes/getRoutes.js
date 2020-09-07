@@ -50,16 +50,19 @@ Routes.get('/contact', (req,res,next) => {
     res.render('pages/contact')
 })
 
-Routes.post("/generate-report" , (req,res,next) => {
-    
-    
+Routes.get('/srfnotfound' , (req,res,next) => {
+    console.log(req.boy);
+    //res.render('pages/srfnotfound')
+})
+
+Routes.post("/generate-report" , (req,res,next) => {    
     console.log(req.body)
     reports
         .findOne({SRF_Number : req.body.srfno})
         .then((response) => {
             console.log(response)
 
-            if (!response){
+            if (!response || response.Result == 'Negative'){
                 return res.render('pages/srfnotfound' , req.body);
             }
             //console.log("Response : " , res);
@@ -69,13 +72,12 @@ Routes.post("/generate-report" , (req,res,next) => {
             var data = {
                 SRF_Number: response.SRF_Number,
                 Name: response.Name,
-                Son_Daughter_Wife_Of: response.Son_Daughter_Wife_Of,
-                Gender: response.Gender,
+                Sex: response.Sex,
                 Address: response.Address,
-                Contact_Number: response.Contact_Number,
-                Date_Sample_Taken: response.Date_Sample_Taken,
-                Lab_Name: response.Lab_Name,
-                Sample_ID: response.Sample_ID,
+                Contact_No: response.Contact_No,
+                Date_of_collection_of_sample: response.Date_of_collection_of_sample,
+                Lab_where_sample_sent: response.Lab_where_sample_sent,
+                LAB_ID2: response.LAB_ID2,
                 Result: response.Result
             }
             console.log(data);

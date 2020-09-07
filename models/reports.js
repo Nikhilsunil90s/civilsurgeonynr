@@ -13,12 +13,7 @@ const reportSchema = new Schema({
         required: true,
         trim: true
     },
-    Son_Daughter_Wife_Of : {
-        type: String,
-        required: true,
-        trim: true
-    },
-    Gender : {
+    Sex : {
         type: String,
         required: true,
         trim: true
@@ -28,22 +23,22 @@ const reportSchema = new Schema({
         required: true,
         trim: true
     },
-    Contact_Number : {
+    Contact_No : {
         type: String,
         required: true,
         trim: true
     },
-    Date_Sample_Taken : {
+    Date_of_collection_of_sample : {
         type: String,
         required: true,
         trim: true
     },
-    Lab_Name : {
+    Lab_where_sample_sent : {
         type: String,
         required: true,
         trim: true
     },
-    Sample_ID : {
+    LAB_ID2 : {
         type: String,
         required: true,
         trim: true
