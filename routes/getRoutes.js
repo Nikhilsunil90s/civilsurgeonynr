@@ -62,7 +62,12 @@ Routes.post("/generate-report" , (req,res,next) => {
         .then((response) => {
             console.log(response)
 
-            if (!response || response.Result == 'Negative'){
+            if (!response){ 
+                req.body['errorMessage'] = 'Report Not Found';
+                return res.render('pages/srfnotfound' , req.body);
+            }
+            if (response.Result == 'Negative'){ 
+                req.body['errorMessage'] = 'Negative';
                 return res.render('pages/srfnotfound' , req.body);
             }
             //console.log("Response : " , res);

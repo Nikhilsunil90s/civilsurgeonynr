@@ -37,7 +37,7 @@ Routes.post("/tally-upload" , isAuthenticated, (req,res , next) => {
 
 
 Routes.get('/tally', isAuthenticated,(req,res,next) => {
-    res.render('Pages/tally');
+    res.render('pages/tally');
 })
 
 Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), (req,res,next) => {
