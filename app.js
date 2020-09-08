@@ -19,6 +19,7 @@ const store = new MongoDBStore({
 });
 
 
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(express.static('uploads'));
