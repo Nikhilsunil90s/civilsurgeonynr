@@ -64,10 +64,12 @@ Routes.post("/generate-report" , (req,res,next) => {
 
             if (!response){ 
                 req.body['errorMessage'] = 'Report Not Found';
+                req.body['description'] = '';
                 return res.render('pages/srfnotfound' , req.body);
             }
-            if (response.Result == 'Negative'){ 
-                req.body['errorMessage'] = 'Negative';
+            if (response.Result == 'Positive'){ 
+                req.body['errorMessage'] = 'Positive';
+                req.body['description'] = 'Please contact Civil Surgeon\'s Office for your Report.'
                 return res.render('pages/srfnotfound' , req.body);
             }
             //console.log("Response : " , res);

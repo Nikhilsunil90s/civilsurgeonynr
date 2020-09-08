@@ -1,7 +1,7 @@
 <%- include('../partials/top') %>
 
 <%- include('../partials/header') %>
-<div style="margin-top: 300px;">
+<div style="margin-top: 200px;">
 <div style="width: 100%;">
     <h2 style="text-align:center">HEALTH DEPARTMENT, YAMUNA NAGAR (HARYANA)</h2>
     </div>
@@ -20,11 +20,18 @@
             <td>:-</td>
             <td class="td-right" style="font-size: 20px;"><b><%= errorMessage %></b></td>
         </tr>
+        <% if(description){%> 
+        <tr>
+            <td class="td-left"><h3>NOTE : </h3></td>
+            <td>:-</td>
+            <td class="td-right" style="font-size: 20px;"><b><%= description %></b></td>
+        </tr> 
+        <%} %>
     </table>
     <div style="text-align: center; margin-top: 50px;">
         <h4>If Report Not Found Please Contact : </h4>
         <h5 class="text-danger">Mukand Lal Distt. Civil Hospital, Yamuna Nagar</h5>
-        <h5>Contact :- 01732-231608 (Medical Superintendent)</h5>
+        <h5>Contact :- 01732-231608, 098178-20600, 098178-89600</h5>
     </div>
 </div>
 
