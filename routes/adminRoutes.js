@@ -1,7 +1,7 @@
 const express = require('express');
 const Routes = express.Router();
 const bcrypt = require('bcryptjs');
-
+const fs = require('fs')
 const User = require('../models/user');
 
 const reports = require('../models/reports');
@@ -13,11 +13,20 @@ const csv = require('csvtojson');
 const isAuthenticated = require('../middleware/isAuthenticated');
 
 
-var storage = multer.diskStorage({dest : 'uploads/' , filename : (req, file, cb) => {
-            console.log("In Storage" , req.file, file);
-            cb(null, file.originalname);
-}});
+// var storage = multer.diskStorage({dest : 'uploads/' , filename : (req, file, cb) => {
+//             console.log("In Storage" , req.file, file);
+//             cb(null, file.originalname);
+// }});
 
+var storage = multer.diskStorage({ 
+    destination: (req, file, cb) => { 
+        
+          cb(null, 'uploads'); 
+    }, 
+    filename: (req, file, cb) => { 
+        cb(null, file.fieldname + '-' + Date.now()) 
+    } 
+}); 
 var upload  = multer({storage : storage});
 
 
@@ -41,37 +50,58 @@ Routes.get('/tally', isAuthenticated,(req,res,next) => {
 })
 
 Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), (req,res,next) => {
-    //console.log(req.body);
+    console.log(req.file);
     var filepath = req.file.path;
     const converter = csv();
     converter
      .fromFile(filepath)
      .then((json) => {
         console.log(json);
-        //console.log(json[0]['Son_Wife_Daughter_Of'])
+        let data = []
         for(let i = 0; i < json.length ; i++){
-        var rep = new reports({
-            SRF_Number : json[i]['SRF_ID'],
-            Name: json[i]['Name'],
-            //Son_Daughter_Wife_Of: json[i]['Son_Wife_Daughter_Of'],
-            Sex: json[i]['Sex'],
-            Address: json[i]['Address'],
-            Contact_No: json[i]['Contact_No'],
-            Date_of_collection_of_sample : json[i]['Date_of_collection_of_sample'],
-            Lab_where_sample_sent: json[i]['Lab_where_sample_sent'],
-            LAB_ID2 : json[i]['Lab_ID2'],
-            Result: json[i]['Result']
-        })
-        rep.save();
-    }
-        //  reports
-        //    .insertMany(json , (err, res) => {
-        //        if(err) throw err;
-        //        console.log(res);
-        //    })
+            
+            if(json[i]['SRF_ID']){
+                let updated = {
+                    SRF_Number : json[i]['SRF_ID'],  //check it is undefined
+                    Name: json[i]['Name'] ? json[i]['Name'] : '-' ,
+                    //Son_Daughter_Wife_Of: json[i]['Son_Wife_Daughter_Of'],
+                    Sex: json[i]['Sex'] ? json[i]['Sex'] : '-',
+                    Address: json[i]['Address'] ? json[i]['Address'] : '-',
+                    Contact_No: json[i]['Contact_No'] ? json[i]['Contact_No'] : '-',
+                    Date_of_collection_of_sample : json[i]['Date_of_collection_of_sample'] ? json[i]['Date_of_collection_of_sample'] : '-',
+                    Lab_where_sample_sent: json[i]['Lab_where_sample_sent'] ? json[i]['Lab_where_sample_sent'] : '-',
+                    LAB_ID2 : json[i]['LAB_ID2'] ? json[i]['LAB_ID2'] : '-',
+                    Result: json[i]['Result'] ? json[i]['Result'] : '-'
+                }
+                reports
+                    .findOneAndUpdate({'SRF_Number' : json[i]['SRF_ID']} , updated)
+                    .then(()=>{
+                        return
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        return
+                    })
+
+                data.push(updated)
+            }
+            
+        }
+        console.log(data)
+             reports
+               .insertMany(data , async (err, response) => {
+                   if(err) throw err;
+                   let isDeleted =  await fs.unlinkSync(req.file.path)
+
+                   console.log(isDeleted);
+                    res.render('pages/success')
+
+               })
+
+            })
+
+
      })
-    res.render('pages/success')
-})
 
 
 Routes.get('/admin', isAuthenticated,(req,res,next) => {

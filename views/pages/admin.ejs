@@ -40,9 +40,9 @@
                     <a href="/tally" class="btn btn-secondary" type="button">Upload Total Cases</a>
                 </div>
                 <div class="col-lg-12 d-flex justify-content-center">
-                    <form action="covid-csv" method="POST" enctype="multipart/form-data" class="form-group">
-                        <input type="file" class="form-control" name="covidcsv" required>
-                        <input type="submit" value="Upload Covid Excelsheet!" class="btn btn-success mt-2 form-control">
+                    <form action="covid-csv" method="POST" enctype="multipart/form-data" class="form-group" id="covidcsvform">
+                        <input type="file" class="form-control" name="covidcsv" id="covidfile" onchange = "changeValue()" required>
+                        <input type="submit" value="Upload Covid Excelsheet!" class="btn btn-success mt-2 form-control upload-button">
                     </form>
                 </div>
             </div>
@@ -64,7 +64,17 @@
     <script src="public/js/vendor/jquery.nice-select.min.js"></script>
     <script src="public/js/vendor/superfish.min.js"></script>
     <script src="public/js/main.js"></script>
-
+    <script>
+        jQuery(()=>{
+            $('#covidcsvform').on('submit' , function() {
+                $('.upload-button').attr('disabled' , true);
+                $('.upload-button').text("'Please Wait! Data is Uploading...'")
+            })
+            $("#covidfile").on('change' , function(){
+                $('.upload-button').attr('disabled' , false);
+            })
+        })
+    </script>
 <%- include('../partials/bottom') %>
 <!-- 
 <div class="row" style="margin-top: 300px; text-align: center;">

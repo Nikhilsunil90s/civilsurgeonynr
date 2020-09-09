@@ -5,7 +5,6 @@ const reports = require("../models/reports")
 const tally = require("../models/tally")
 const fs = require('fs');
 const pdf = require('pdf-creator-node');
-var emailCheck = require('email-check');
 
 const options = {
     format: "A4",
@@ -22,16 +21,16 @@ const options = {
         }
     }
 }
-Routes.get("/emailcheck" , (req,res,next) => {
-    emailCheck('up.works.nikhil@gmail.com')
-  .then(function (response) {
-    // Returns "true" if the email address exists, "false" if it doesn't.
-    return res.send(response);
-  })
-  .catch(function (err) {
-      return res.send("Error");
-  });
-})
+// Routes.get("/emailcheck" , (req,res,next) => {
+//     emailCheck('up.works.nikhil@gmail.com')
+//   .then(function (response) {
+//     // Returns "true" if the email address exists, "false" if it doesn't.
+//     return res.send(response);
+//   })
+//   .catch(function (err) {
+//       return res.send("Error");
+//   });
+// })
 
 Routes.get('/', (req,res,next) => {
     res.redirect('/home');
@@ -69,7 +68,7 @@ Routes.post("/generate-report" , (req,res,next) => {
     reports
         .findOne({SRF_Number : req.body.srfno})
         .then((response) => {
-            console.log(response)
+            //console.log(response)
 
             if (!response){ 
                 req.body['errorMessage'] = 'Report Not Found';
@@ -77,7 +76,12 @@ Routes.post("/generate-report" , (req,res,next) => {
                 return res.render('pages/srfnotfound' , req.body);
             }
             if (response.Result == 'Positive'){ 
-                req.body['errorMessage'] = 'Positive';
+                req.body['errorMessage'] = ' ';
+                req.body['description'] = 'Please contact Civil Hospital, Yamunanagar for your Report.'
+                return res.render('pages/srfnotfound' , req.body);
+            }
+            if(response.Result != 'Negative'){
+                req.body['errorMessage'] = response.Result;
                 req.body['description'] = 'Please contact Civil Hospital, Yamunanagar for your Report.'
                 return res.render('pages/srfnotfound' , req.body);
             }
