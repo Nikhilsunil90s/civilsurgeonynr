@@ -67,8 +67,9 @@
     <script>
         jQuery(()=>{
             $('#covidcsvform').on('submit' , function() {
+                $('.upload-button').attr('value' ,'Please Wait! Data is Uploading...');
                 $('.upload-button').attr('disabled' , true);
-                $('.upload-button').text("'Please Wait! Data is Uploading...'")
+                
             })
             $("#covidfile").on('change' , function(){
                 $('.upload-button').attr('disabled' , false);
