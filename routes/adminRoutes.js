@@ -56,7 +56,8 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), (req,res,n
     converter
      .fromFile(filepath)
      .then((json) => {
-        console.log(json);
+        //console.log(json);
+        res.render('pages/success')
         let data = []
         for(let i = 0; i < json.length ; i++){
             
@@ -73,15 +74,15 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), (req,res,n
                     LAB_ID2 : json[i]['LAB_ID2'] ? json[i]['LAB_ID2'] : '-',
                     Result: json[i]['Result'] ? json[i]['Result'] : '-'
                 }
-                // reports
-                //     .findOneAndUpdate({'SRF_Number' : json[i]['SRF_ID']} , updated)
-                //     .then(()=>{
-                //         return
-                //     })
-                //     .catch(err => {
-                //         console.log(err)
-                //         return
-                //     })
+                reports
+                    .findOneAndUpdate({'SRF_Number' : json[i]['SRF_ID']} , updated)
+                    .then(()=>{
+                        return
+                    })
+                    .catch(err => {   
+                        console.log(err)
+                        return
+                    })
 
                 data.push(updated)
             }
@@ -94,7 +95,7 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), (req,res,n
                    let isDeleted =  await fs.unlinkSync(req.file.path)
 
                    console.log(isDeleted);
-                    res.render('pages/success')
+                    //res.render('pages/success')
 
                })
 
