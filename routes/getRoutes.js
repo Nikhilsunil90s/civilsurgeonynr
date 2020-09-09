@@ -80,7 +80,7 @@ Routes.post("/generate-report" , (req,res,next) => {
                 req.body['description'] = 'Please contact Civil Hospital, Yamunanagar for your Report.'
                 return res.render('pages/srfnotfound' , req.body);
             }
-            if(response.Result != 'Negative'){
+            if((response.Result != 'Negative') && (response.Result != 'NEGATIVE')){
                 req.body['errorMessage'] = response.Result;
                 req.body['description'] = 'Please contact Civil Hospital, Yamunanagar for your Report.'
                 return res.render('pages/srfnotfound' , req.body);
