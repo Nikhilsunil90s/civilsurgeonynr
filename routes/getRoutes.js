@@ -12,7 +12,7 @@ const options = {
     border: "10mm",
     header: {
         height: "20mm",
-        contents: '<h2 style="text-align: center">Civil Surgeon\'s Office, Yamunanagar</h2>'
+        contents: '<h4 style="text-align: center">Civil Surgeon\'s Office, Yamunanagar</h4>'
     },
     footer: {
         height: "20mm",
