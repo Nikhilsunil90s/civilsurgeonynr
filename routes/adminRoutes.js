@@ -73,15 +73,15 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), (req,res,n
                     LAB_ID2 : json[i]['LAB_ID2'] ? json[i]['LAB_ID2'] : '-',
                     Result: json[i]['Result'] ? json[i]['Result'] : '-'
                 }
-                reports
-                    .findOneAndUpdate({'SRF_Number' : json[i]['SRF_ID']} , updated)
-                    .then(()=>{
-                        return
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        return
-                    })
+                // reports
+                //     .findOneAndUpdate({'SRF_Number' : json[i]['SRF_ID']} , updated)
+                //     .then(()=>{
+                //         return
+                //     })
+                //     .catch(err => {
+                //         console.log(err)
+                //         return
+                //     })
 
                 data.push(updated)
             }
