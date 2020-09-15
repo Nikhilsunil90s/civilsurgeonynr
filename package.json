@@ -18,17 +18,22 @@
     "csvtojson": "^2.0.10",
     "ejs": "^3.1.5",
     "email-check": "^1.1.0",
+    "excel-date-to-js": "^1.0.6",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "fast-csv": "^4.3.1",
     "flash": "^1.1.0",
     "fs": "0.0.1-security",
+    "js-excel-date-convert": "^1.0.2",
     "mongoose": "^5.10.0",
     "multer": "^1.4.2",
+    "node-xlsx": "^0.15.0",
     "nodemon": "^2.0.4",
     "path": "^0.12.7",
     "pdf-creator-node": "^1.4.1",
-    "session": "^0.1.0"
+    "read-excel-file": "^4.0.7",
+    "session": "^0.1.0",
+    "xlsx": "^0.16.7"
   },
   "devDependencies": {},
   "repository": {

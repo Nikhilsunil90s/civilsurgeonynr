@@ -1,6 +1,8 @@
 const express = require('express');
 const Routes = express.Router();
 const bcrypt = require('bcryptjs');
+const fromExcelDate = require('js-excel-date-convert').fromExcelDate;
+const xlsx = require('node-xlsx');
 const fs = require('fs')
 const User = require('../models/user');
 
@@ -49,62 +51,73 @@ Routes.get('/tally', isAuthenticated,(req,res,next) => {
     res.render('pages/tally');
 })
 
-Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), (req,res,next) => {
+Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req,res,next) => {
     console.log(req.file);
     var filepath = req.file.path;
-    const converter = csv();
-    converter
-     .fromFile(filepath)
-     .then((json) => {
-        //console.log(json);
-        res.render('pages/success')
-        let data = []
-        for(let i = 0; i < json.length ; i++){
-            
-            if(json[i]['SRF_ID']){
-                let updated = {
-                    SRF_Number : json[i]['SRF_ID'],  //check it is undefined
-                    Name: json[i]['Name'] ? json[i]['Name'] : '-' ,
-                    //Son_Daughter_Wife_Of: json[i]['Son_Wife_Daughter_Of'],
-                    Sex: json[i]['Sex'] ? json[i]['Sex'] : '-',
-                    Address: json[i]['Address'] ? json[i]['Address'] : '-',
-                    Contact_No: json[i]['Contact_No'] ? json[i]['Contact_No'] : '-',
-                    Date_of_collection_of_sample : json[i]['Date_of_collection_of_sample'] ? json[i]['Date_of_collection_of_sample'] : '-',
-                    Lab_where_sample_sent: json[i]['Lab_where_sample_sent'] ? json[i]['Lab_where_sample_sent'] : '-',
-                    LAB_ID2 : json[i]['LAB_ID2'] ? json[i]['LAB_ID2'] : '-',
-                    Result: json[i]['Result'] ? json[i]['Result'] : '-'
-                }
-                reports
-                    .findOneAndUpdate({'SRF_Number' : json[i]['SRF_ID']} , updated)
-                    .then(()=>{
-                        return
-                    })
-                    .catch(err => {   
-                        console.log(err)
-                        return
-                    })
 
-                data.push(updated)
+
+    var obj = await xlsx.parse(filepath);
+    //console.log(obj);
+    let mydata  = [];
+    res.render('pages/success')
+    console.log(new Date(obj[0].data[1][6]));
+    for(var i = 1 ; i < (obj[0].data).length; i++){
+        let dataone = obj[0].data[i];
+        let srf =  dataone[0];
+        if(dataone.length > 0){
+        //console.log(srf);
+            var repdate = fromExcelDate(dataone[6]).toDateString();
+            console.log(repdate);
+            if(srf){
+                srf = srf.toString();
+                srf = srf.replace(/[^0-9]/g, "")
+                let updated = {
+                    SRF_Number : srf,  //check it is undefined
+                    Name: dataone[1] ? dataone[1] : '-' ,
+                    Sex: dataone[3] ? dataone[3] : '-',
+                    Address: dataone[4] ? dataone[4] : '-',
+                    Contact_No: dataone[2] ? dataone[2] : '-',
+                    Date_of_collection_of_sample : repdate ? repdate : '-',
+                    Lab_where_sample_sent: dataone[7] ? dataone[7] : '-',
+                    LAB_ID2 : dataone[8] ? dataone[8] : '-',
+                    Result: dataone[9] ? dataone[9] : '-'
+                }
+                console.log(updated);
+                
+                let isSrfExist = await reports.findOne({'SRF_Number': srf.toString()})
+                    
+                if (isSrfExist) {
+                    let isUpdated = await reports.findOneAndUpdate({'SRF_Number' : srf.toString()} , updated)
+
+                    if (isUpdated) {
+                        console.log('Report updated')
+                    } else {
+                        console.log('Report not updated')
+                    }
+
+                    continue
+
+                }
+                    
+
+                mydata.push(updated)
+            }
             }
             
         }
-        console.log(data)
+
              reports
-               .insertMany(data , async (err, response) => {
+               .insertMany(mydata , async (err, response) => {
                    if(err) throw err;
                    let isDeleted =  await fs.unlinkSync(req.file.path)
 
-                   console.log(isDeleted);
-                    //res.render('pages/success')
-
+                   console.log('Reports Uploaded successfully!');
+                    
+                   
                })
 
             })
-
-
-     })
-
-
+ 
 Routes.get('/admin', isAuthenticated,(req,res,next) => {
     res.render('pages/admin')
 })

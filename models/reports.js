@@ -25,7 +25,6 @@ const reportSchema = new Schema({
     },
     Contact_No : {
         type: String,
-        required: true,
         trim: true
     },
     Date_of_collection_of_sample : {
@@ -48,6 +47,8 @@ const reportSchema = new Schema({
         required: true,
         trim: true
     }
+},{
+    timestamps: true
 })
 
 module.exports = mongoose.model("Reports", reportSchema, 'reports');

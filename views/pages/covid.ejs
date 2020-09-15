@@ -25,6 +25,9 @@
                         <h4>Date : <span id="datetime"></span></p><script>var dt = new Date();
                         document.getElementById("datetime").innerHTML=dt.toDateString();</script> </h4>
                     </div>
+                    <div class="col-lg-12 text-center">
+                        <h4>Covid Tally Last Updated On : <%= updatedAt  %> </h4>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
@@ -69,7 +72,7 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="welcome-text mt-2 mt-lg-0">
-                        <div class="appointment-form text-center mt-2 mt-lg-0">
+                        <div class="appointment-form mt-2 mt-lg-0">
                             <h4>Please Isolate Yourself Till Corona Report Negative!</h4>
                             <h3 class="mb-5">Covid-19 Reports</h3>
                             <form action="/generate-report" method="POST">

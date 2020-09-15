@@ -4,8 +4,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const flash = require('connect-flash');
-const User = require('./models/user')
-
+const User = require('./models/user');
+const reports = require("./models/reports");
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -20,6 +20,8 @@ const store = new MongoDBStore({
 
 
 
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(express.static('uploads'));
@@ -31,7 +33,7 @@ const adminRoutes = require('./routes/adminRoutes');
 //For set layouts of html view
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+//console.log(',0607600041847'.replace(/[^0-9]/g, ""))
 
 app.use('/public', express.static('public'));
 app.use(
