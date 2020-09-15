@@ -74,8 +74,8 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req
                 let updated = {
                     SRF_Number : srf,  //check it is undefined
                     Name: dataone[1] ? dataone[1] : '-' ,
-                    Sex: dataone[3] ? dataone[3] : '-',
-                    Address: dataone[4] ? dataone[4] : '-',
+                    Sex: dataone[4] ? dataone[4] : '-',
+                    Address: dataone[5] ? dataone[5] : '-',
                     Contact_No: dataone[2] ? dataone[2] : '-',
                     Date_of_collection_of_sample : repdate ? repdate : '-',
                     Lab_where_sample_sent: dataone[7] ? dataone[7] : '-',
