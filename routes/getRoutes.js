@@ -14,12 +14,7 @@ const options = {
         height: "20mm",
         contents: '<h4 style="text-align: center">HEALTH DEPARTMENT, YAMUNA NAGAR (HARYANA)</h4>'
     },
-    footer: {
-        height: "20mm",
-        contents: {
-            default: '<span style="color: #444;text-align: center">{{page}}</span>/<span>{{pages}}</span>'
-        }
-    }
+    
 }
 
 
