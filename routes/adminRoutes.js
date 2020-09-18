@@ -52,71 +52,78 @@ Routes.get('/tally', isAuthenticated,(req,res,next) => {
 })
 
 Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req,res,next) => {
-    console.log(req.file);
     var filepath = req.file.path;
 
 
     var obj = await xlsx.parse(filepath);
     //console.log(obj);
-    let mydata  = [];
     res.render('pages/success')
-    console.log(new Date(obj[0].data[1][6]));
-    for(var i = 1 ; i < (obj[0].data).length; i++){
-        let dataone = obj[0].data[i];
-        let srf =  dataone[0];
-        if(dataone.length > 0){
-        //console.log(srf);
+    let isCompleted = new Promise((resolve,reject) => {
+        for(var i = 1 ; i < (obj[0].data).length; i++){
+            let dataone = obj[0].data[i];
+            let srf =  dataone[0];
+            console.log(i,srf)
             var repdate = fromExcelDate(dataone[6]).toDateString();
-            console.log(repdate);
-            if(srf){
-                srf = srf.toString();
-                srf = srf.replace(/[^0-9]/g, "")
-                let updated = {
-                    SRF_Number : srf,  //check it is undefined
-                    Name: dataone[1] ? dataone[1] : '-' ,
-                    Sex: dataone[4] ? dataone[4] : '-',
-                    Address: dataone[5] ? dataone[5] : '-',
-                    Contact_No: dataone[2] ? dataone[2] : '-',
-                    Date_of_collection_of_sample : repdate ? repdate : '-',
-                    Lab_where_sample_sent: dataone[7] ? dataone[7] : '-',
-                    LAB_ID2 : dataone[8] ? dataone[8] : '-',
-                    Result: dataone[9] ? dataone[9] : '-'
-                }
-                console.log(updated);
-                
-                let isSrfExist = await reports.findOne({'SRF_Number': srf.toString()})
-                    
-                if (isSrfExist) {
-                    let isUpdated = await reports.findOneAndUpdate({'SRF_Number' : srf.toString()} , updated)
-
-                    if (isUpdated) {
-                        console.log('Report updated')
-                    } else {
-                        console.log('Report not updated')
+            if(dataone.length > 0) {
+                if(srf) {
+                    // console.log(srf)
+                    console.log(i)
+                    srf = srf.toString();
+                    srf = srf.replace(/[^0-9]/g, "")
+                    let updated = {
+                        SRF_Number : srf,  //check it is undefined
+                        Name: dataone[1] ? dataone[1] : '-' ,
+                        Sex: dataone[4] ? dataone[4] : '-',
+                        Address: dataone[5] ? dataone[5] : '-',
+                        Contact_No: dataone[2] ? dataone[2] : '-',
+                        Date_of_collection_of_sample : repdate ? repdate : '-',
+                        Lab_where_sample_sent: dataone[7] ? dataone[7] : '-',
+                        LAB_ID2 : dataone[8] ? dataone[8] : '-',
+                        Result: dataone[9] ? dataone[9] : '-'
                     }
-
-                    continue
-
-                }
-                    
-
-                mydata.push(updated)
-            }
-            }
+    
+    
+                    reports.findOne({'SRF_Number': srf.toString()})
+                        .then(async (isExist) => {
+                            if(isExist) {
+                                console.log('if')
+                                let isUpdated = await reports.findOneAndUpdate({'SRF_Number' : srf.toString()} , updated)
+                                if (isUpdated) {
+                                    console.log('Report updated')
+                                } else {
+                                    console.log('Report not updated')
+                                }
             
+            
+                            } else {
+                                console.log("Else")
+                                let report = new reports(updated)
+            
+                                let saved = await report.save()
+            
+                                console.log('saved');
+            
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
+            }    
+            
+            if(i === (obj[0].data).length -1) {
+                resolve(true)
+            }
         }
+    })
 
-             reports
-               .insertMany(mydata , async (err, response) => {
-                   if(err) throw err;
-                   let isDeleted =  await fs.unlinkSync(req.file.path)
+    if(await isCompleted) {
+        fs.unlinkSync(req.file.path);
+    }
 
-                   console.log('Reports Uploaded successfully!');
-                    
-                   
-               })
 
-            })
+    
+})
  
 Routes.get('/admin', isAuthenticated,(req,res,next) => {
     res.render('pages/admin')

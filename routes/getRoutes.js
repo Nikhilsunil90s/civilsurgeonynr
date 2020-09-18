@@ -12,7 +12,7 @@ const options = {
     border: "10mm",
     header: {
         height: "20mm",
-        contents: '<h4 style="text-align: center">Civil Surgeon\'s Office, Yamunanagar</h4>'
+        contents: '<h4 style="text-align: center">HEALTH DEPARTMENT, YAMUNA NAGAR (HARYANA)</h4>'
     },
     footer: {
         height: "20mm",
