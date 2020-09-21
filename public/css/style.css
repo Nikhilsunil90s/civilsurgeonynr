@@ -3,7 +3,7 @@
 
     body {
         color: #777;
-        font-family: "Roboto", sans-serif;
+        font-family: 'Times New Roman', Times, serif, monospace;
         font-size: 15px;
         font-weight: 400
     }
@@ -114,21 +114,18 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
 }      
     h1 {
         color: #222;
-        font-family: "Ubuntu", sans-serif;
         font-size: 45px !important;
         font-weight: 700
     }
 
     h2 {
         color: #222;
-        font-family: "Ubuntu", sans-serif;
         font-size: 28px !important;
         font-weight: 700
     }
 
     h3 {
         color: #222;
-        font-family: "Ubuntu", sans-serif;
         font-size: 18px !important;
         font-weight: 700;
         text-transform: uppercase
@@ -136,14 +133,12 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
 
     h4 {
         color: #222;
-        font-family: "Ubuntu", sans-serif;
         font-size: 16px !important;
         font-weight: 400
     }
 
     h5 {
         color: #777;
-        font-family: "Roboto", sans-serif;
         text-transform: capitalize;
         font-size: 14px !important;
         font-weight: 400
@@ -152,7 +147,6 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
     h6 {
         color: #777;
         font-size: 12px !important;
-        font-family: "Roboto", sans-serif;
         text-transform: uppercase;
         font-weight: 500
     }
@@ -281,7 +275,6 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
         content: "\f107";
         position: absolute;
         right: 15px;
-        font-family: FontAwesome;
         font-style: normal;
         font-weight: normal
     }
@@ -305,7 +298,7 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
         text-decoration: none;
         display: inline-block;
         color: #222;
-        font-weight: 500;
+        font-weight: 600;
         font-size: 12px;
         text-transform: uppercase;
         outline: none
@@ -598,9 +591,8 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
 
     .banner-area {
         padding: 200px 0 170px;
-        height: 100px;
+        height: 450px;
         background-color: #b0b0b0;
-        background-image: url("../images/banner-bg.jpg");
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
@@ -632,6 +624,7 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
         -ms-border-radius: 5px;
         -o-border-radius: 5px;
         border-radius: 5px;
+        height: 150px;
         -webkit-transition: .5s;
         -moz-transition: .5s;
         -o-transition: .5s;
@@ -1326,7 +1319,7 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
     }
 
     .blog_details .template-btn:hover {
-        color: #fff !important;
+        color: black !important;
         background: linear-gradient(to right, #63fd27, #15e4fd)
     }
 
@@ -3375,9 +3368,8 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
     }
 
     .template-btn {
-        color: #fff;
+        color: black;
         background: linear-gradient(to right, #63fd27, #b5fe99);
-        font-family: "Roboto", sans-serif;
         text-transform: uppercase;
         font-size: 12px;
         font-weight: 400;
@@ -3390,7 +3382,7 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
     }
 
     .template-btn:hover {
-        color: #fff;
+        color: black;
         filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
         opacity: .8
     }

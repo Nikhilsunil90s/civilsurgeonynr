@@ -1,19 +1,31 @@
 <!-- Banner Area Starts -->
-<section class="banner-area">
+        <section class="banner-area" >
     <div class="container">
         <div class="row">
             <div class="col-lg-6 ">
-                <h4 class="text-danger">Caring for Better Life</h4>
                 <h2 class="cityname">Civil Surgeon,</h2>
-                <h2 class="cityname">YAMUNANAGAR</h2>
+                <h2 class="cityname">Yamunanagar</h2>
+                <h4 class="text-danger "  style="font-size: 20px !important; font-weight: bolder;">Caring For Better Life. STAY HOME, STAY SAFE!</h4>
+
                 <a href="/covid" class="template-btn mt-3">Covid-19</a>
             </div>
         </div>
     </div>
 </section>
 <!-- Banner Area End -->
+<script>
+    jQuery(() => {
+        let title = "<%= title%>";
 
-<style>
+        if (title === 'home') {
+            $('.banner-area').css('background-image', 'url("/public/images/banner-3.jpg")')
+        } else if (title === 'covid') {
+            $('.banner-area').css('background-image', 'url("/public/images/banner-2.jpg")')
+        } else if (title === 'contact') {
+            $('.banner-area').css('background-image', 'url("/public/images/banner-1.jpg")')
+        } else {
+            $('.banner-area').css('background-image', 'url("/public/images/banner-4.jpg")')
+        }
 
-    
-</style>
+    })
+</script>

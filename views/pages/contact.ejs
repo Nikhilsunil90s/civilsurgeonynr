@@ -14,38 +14,14 @@
 
 <!-- Banner Area End -->
 
-    <!-- Map Area Starts -->
-    <!-- <section class="map-area section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div id="mapBox" class="mapBox" 
-                        data-lat="30.1392832" 
-                        data-lon="77.3010854" 
-                        data-zoom="13"
-                        data-mlat="40.701083"
-                        data-mlon="-74.1522848">
-                    </div>
-                    <!-- <div id="mapBox" class="mapBox" 
-                        data-lat="40.701083" 
-                        data-lon="-74.1522848" 
-                        data-zoom="13" 
-                        data-info="PO Box CT16122 Collins Street West, Victoria 8007, Australia."
-                        data-mlat="40.701083"
-                        data-mlon="-74.1522848">
-                    </div> -->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Map Area End -->
+   
 
 
     <!-- Contact Form Starts -->
     <section class="contact-form section-padding3">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 mb-5 mb-lg-0">
+                <div class="col-md-6 mb-5 mb-lg-0">
                     <div class="d-flex">
                         <div class="into-icon">
                             <i class="fa fa-home"></i>
@@ -73,21 +49,28 @@
                             <p>Send us your query anytime!</p>
                         </div>
                     </div>
-                <!-- </div>
-                <div class="col-lg-9">
-                    <form action="#">
-                        <div class="left">
-                            <input type="text" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" required>
-                            <input type="email" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" required>
-                            <input type="text" placeholder="Enter subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter subject'" required>
+                </div>
+
+                <div class="col-md-6 mt-3"> 
+
+                    <form action="/send-query" method="POST">
+                        <p class="text-danger"><%= errorMessage %></p>
+                        <div class="form-group">
+                          <label for="email">Email:</label>
+                          <input type="email" name="email" class="form-control" placeholder="Enter email" id="email" required>
                         </div>
-                        <div class="right">
-                            <textarea name="message" cols="20" rows="7"  placeholder="Enter Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" required></textarea>
+                        <div class="form-group">
+                            <label for="query">Query:</label>
+                            <textarea class="form-control" name="query" placeholder="Enter Query" id="query" rows="5" required>
+                            </textarea>
                         </div>
-                        <button type="submit" class="template-btn">subscribe now</button>
-                    </form>
-                </div> -->
-            </div>
+                          
+                        <button style="float: left; margin-top: -5px;" type="submit" class="template-btn">Send</button>
+                      </form>
+                </div>
+                <div class="col-12 mt-4">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3450.39677881773!2d77.29779941490077!3d30.14007008184766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390efbccd7a2d0db%3A0x1c5e16c27180b396!2sMukand%20Lal%20Civil%20Hospital%20And%20Trauma%20Centre!5e0!3m2!1sen!2sin!4v1600498224049!5m2!1sen!2sin"  class="w-100" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                </div>
         </div>
     </section>
     <!-- Contact Form End -->

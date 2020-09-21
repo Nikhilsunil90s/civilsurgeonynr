@@ -22,7 +22,7 @@
                         <h4 class="text-center">District Yamunanagar CENSUS</h4>
                     </div>
                     <div class="col-lg-12 text-center">
-                        <h4>Covid Tally Last Updated On : <%= new Date(updatedAt.toLocaleString())  %> </h4>
+                        <h4>Covid Tally Last Updated On : <%= new Date(updatedAt.toLocaleString()).toLocaleString("en-US", {timeZone: "Asia/Kolkata"}) %> </h4>
                     </div>
                 </div>
                 <div class="row">
@@ -75,10 +75,9 @@
                                 <div class="form-group">
                                     <input type="text" placeholder="Enter Your SRF Number Here" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your SRF Number here'" name="srfno" class="form-control border" required>
                                 </div>
-                                <input type="submit" class="template-btn">Generate Report</a>
+                                <input type="submit" class="template-btn" value="Generate Report">
                             </form>
-                            <h4>IMPORTANT : </h4>
-                            <br>
+                            <h4 class="mt-4">IMPORTANT : </h4>
                             <h5>1. Please wait for 24 to 48 hours for Corona Report.</h5>
                             <h5>   कोरोना रिपोर्ट के लिए कृपया 24 से 48 घंटे तक प्रतीक्षा करें।</h5>
                             <hr>

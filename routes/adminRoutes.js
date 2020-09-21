@@ -126,7 +126,10 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req
 })
  
 Routes.get('/admin', isAuthenticated,(req,res,next) => {
-    res.render('pages/admin')
+    res.render('pages/admin' , {
+        title : 'admin',
+        errorMessage: ''
+    })
 })
 
 Routes.get('/signup', (req,res,next) => {
@@ -177,6 +180,7 @@ Routes.post('/signup', (req,res,next) => {
 
 Routes.get('/signin', (req,res,next) => {
     res.render('pages/signin', {
+        title : 'signin',
         errorMessage: ''
     });
 })

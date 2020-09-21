@@ -5,7 +5,7 @@ const reports = require("../models/reports")
 const tally = require("../models/tally")
 const fs = require('fs');
 const pdf = require('pdf-creator-node');
-
+const checkEmail = require('email-check');
 const options = {
     format: "A4",
     orientation: "portrait",
@@ -18,43 +18,54 @@ const options = {
 }
 
 
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'nikhilsunil90s@gmail.com',
+    pass: 'premlata123'
+  }
+});
+
+
+
 Routes.get('/', (req,res,next) => {
     res.redirect('/home');
 })
 
-Routes.get('/home', (req,res,next) => {
-    res.render('pages/home')
+Routes.get('/home', async(req,res,next) => {
+    
+    var result = await tally.find()
+    const data = result[result.length - 1] ;
+    data.title="home"
+    res.render('pages/home' , data)
+    
 })
 
-Routes.get("/aboutNHM" , (req,res,next) => {
-    res.render("pages/aboutnhm")    
-})
 
 Routes.get('/covid', async (req,res,next) => {
     var result = await tally.find()
-    //var totalPositi = await reports.find({Result: 'Negative'})
-
     const data = result[result.length - 1] ;
-    console.log(data)
-   // reports.find({})
+    data.title="covid"
     res.render('pages/covid' , data)
 })
 
 Routes.get('/contact', (req,res,next) => {
-    res.render('pages/contact')
+    res.render('pages/contact', {
+        title : 'contact',
+        errorMessage: ''
+    })
 })
 
-Routes.get('/srfnotfound' , (req,res,next) => {
-    console.log(req.boy);
-    //res.render('pages/srfnotfound')
-})
 
 Routes.post("/generate-report" , (req,res,next) => {    
     //console.log(typeof(req.body.srfno))
     reports
         .findOne({SRF_Number : req.body.srfno})
         .then((response) => {
-            console.log(response)
+            req.body.title = 'not found'
+
             if ((!response) || (response.Result == '' || response.Result == '-')){ 
                 console.log("Done In Response Not Found." , response)
                 req.body['errorMessage'] = 'Report Not Found';
@@ -112,6 +123,57 @@ Routes.post("/generate-report" , (req,res,next) => {
             //console.log(err);
         })
 });
+
+
+Routes.post('/send-query', (req,res,next) => {
+    let email = req.body.email;
+    let query = req.body.query;
+
+    if (!email || !query ) {
+        return res.render('pages/contact',{
+            title: 'contact',
+            errorMessage: 'Please enter email and query fields !'
+        })
+    }
+
+
+    checkEmail(email)
+        .then((data) => {
+            if (data === false) {
+                return res.render('pages/contact',{
+                    title: 'contact',
+                    errorMessage: 'Please enter a Valid Email Address !'
+                })
+            }
+
+
+            var mailOptions = {
+                from: 'nikhilsunil90s@gmail.com',
+                to: 'csoynr@gmail.com',
+                subject: 'New Query',
+                html: `You've Got A New Query From ${email}.<br><br> ${query}`
+              };
+              
+              transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error)
+                    return res.render('pages/contact',{
+                        title: 'contact',
+                        errorMessage: 'Something Went Wrong!'
+                    })
+                } else {
+                    return res.redirect('/contact')
+                }
+              });
+        })
+        .catch(err => {
+            return res.render('pages/contact',{
+                title: 'contact',
+                errorMessage: 'Please try again with other email address !'
+            })
+        })
+
+})
 
 
 module.exports = Routes;
