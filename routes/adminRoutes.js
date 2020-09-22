@@ -43,7 +43,9 @@ Routes.post("/tally-upload" , isAuthenticated, (req,res , next) => {
     })
     console.log(tally);
     tally.save();
-    return res.render("pages/success")
+    return res.render("pages/success" , {
+        total : ''
+    })
 })
 
 
@@ -60,7 +62,9 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req
 
     var obj = await xlsx.parse(filepath);
     //console.log(obj);
-    res.render('pages/success')
+    res.render('pages/success', {
+        total: (obj[0].data).length
+    })
     let isCompleted = new Promise((resolve,reject) => {
         for(var i = 1 ; i < (obj[0].data).length; i++){
             let dataone = obj[0].data[i];
