@@ -3,6 +3,8 @@ const Routes = express.Router();
 const bcrypt = require('bcryptjs');
 const reports = require("../models/reports")
 const tally = require("../models/tally")
+const Gallery = require('../models/gallery');
+
 const fs = require('fs');
 const pdf = require('pdf-creator-node');
 const checkEmail = require('email-check');
@@ -42,6 +44,62 @@ Routes.get('/home', async(req,res,next) => {
     res.render('pages/home' , data)
     
 })
+
+Routes.get('/gallery', (req,res,next) => {
+
+    Gallery
+        .find()
+        .limit(10)
+        .then((gallery) => {
+            return res.render('pages/gallery', {
+                title: 'gallery',
+                gallery: gallery
+            })
+        })
+        .catch(err => {
+            return res.render('pages/bad-request');
+        })
+    
+})
+
+Routes.post('/get-gallery', (req,res,next) => {
+
+    let {skip} = req.body;
+
+    skip = parseInt(skip)
+    Gallery
+        .find()
+        .skip(skip)
+        .limit(10)
+        .then((gallery) => {
+            return res.status(200).json({data: gallery})
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).json({'msg': 'cant fetch gallery'})
+
+            
+        })
+})
+
+Routes.get('/gallery-details/:id', (req,res,next) => {
+
+    let id = req.params.id
+
+    Gallery
+        .findById(id)
+        .then((gallery) => {
+            return res.render('pages/gallery-details', {
+                title: 'gallery',
+                gallery: gallery
+            })
+        })
+        .catch(err => {
+            return res.render('pages/bad-request');
+        })
+    
+})
+
 
 
 Routes.get('/covid', async (req,res,next) => {

@@ -19,9 +19,6 @@ const store = new MongoDBStore({
 });
 
 
-
-
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(express.static('uploads'));
@@ -36,6 +33,7 @@ app.set('view engine', 'ejs');
 //console.log(',0607600041847'.replace(/[^0-9]/g, ""))
 
 app.use('/public', express.static('public'));
+
 app.use(
   session({
     secret: 'my secret',

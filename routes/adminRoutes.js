@@ -7,8 +7,8 @@ const fs = require('fs')
 const User = require('../models/user');
 
 const reports = require('../models/reports');
-
 const Tally = require("../models/tally");
+const Gallery = require('../models/gallery')
 
 const multer = require('multer');
 const csv = require('csvtojson');
@@ -131,6 +131,25 @@ Routes.get('/admin', isAuthenticated,(req,res,next) => {
         errorMessage: ''
     })
 })
+
+Routes.post('/upload-gallery', isAuthenticated,(req,res,next) => {
+    let gallery  = new Gallery({
+        title: req.body.title,
+        image: req.body.image,
+        desc: req.body.desc
+    })
+
+    gallery 
+        .save()
+        .then(() => {
+            return res.render("pages/success")
+        })
+        .catch(err => {
+            return res.render("pages/bad-request")
+
+        })
+})
+
 
 Routes.get('/signup', (req,res,next) => {
     res.render('pages/signup', {
