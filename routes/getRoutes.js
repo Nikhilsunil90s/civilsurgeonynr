@@ -25,8 +25,8 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'nikhilsunil90s@gmail.com',
-    pass: 'premlata123'
+    user: 'csoynr@gmail.com',
+    pass: 'csoynr123'
   }
 });
 
@@ -206,7 +206,7 @@ Routes.post('/send-query', (req,res,next) => {
 
 
             var mailOptions = {
-                from: 'nikhilsunil90s@gmail.com',
+                from: 'csoynr@gmail.com',
                 to: 'csoynr@gmail.com',
                 subject: 'New Query',
                 html: `You've Got A New Query From ${email}.<br><br> ${query}`
