@@ -7,8 +7,8 @@ const fs = require('fs')
 const User = require('../models/user');
 
 const reports = require('../models/reports');
-
 const Tally = require("../models/tally");
+const Gallery = require('../models/gallery')
 
 const multer = require('multer');
 const csv = require('csvtojson');
@@ -43,17 +43,12 @@ Routes.post("/tally-upload" , isAuthenticated, (req,res , next) => {
     })
     console.log(tally);
     tally.save();
-    return res.render("pages/success" , {
-        total : ''
-    })
+    return res.render("pages/success")
 })
 
 
 Routes.get('/tally', isAuthenticated,(req,res,next) => {
-    res.render('pages/tally' , {
-        title : 'tally',
-        errorMessage : ''
-    });
+    res.render('pages/tally');
 })
 
 Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req,res,next) => {
@@ -62,9 +57,7 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req
 
     var obj = await xlsx.parse(filepath);
     //console.log(obj);
-    res.render('pages/success', {
-        total: (obj[0].data).length
-    })
+    res.render('pages/success')
     let isCompleted = new Promise((resolve,reject) => {
         for(var i = 1 ; i < (obj[0].data).length; i++){
             let dataone = obj[0].data[i];
@@ -138,6 +131,25 @@ Routes.get('/admin', isAuthenticated,(req,res,next) => {
         errorMessage: ''
     })
 })
+
+Routes.post('/upload-gallery', isAuthenticated,(req,res,next) => {
+    let gallery  = new Gallery({
+        title: req.body.title,
+        image: req.body.image,
+        desc: req.body.desc
+    })
+
+    gallery 
+        .save()
+        .then(() => {
+            return res.render("pages/success")
+        })
+        .catch(err => {
+            return res.render("pages/bad-request")
+
+        })
+})
+
 
 Routes.get('/signup', (req,res,next) => {
     res.render('pages/signup', {
