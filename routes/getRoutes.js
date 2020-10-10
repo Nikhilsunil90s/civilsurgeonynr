@@ -21,6 +21,7 @@ const options = {
 
 
 var nodemailer = require('nodemailer');
+const gallery = require('../models/gallery');
 
 var transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -100,6 +101,22 @@ Routes.get('/gallery-details/:id', (req,res,next) => {
             return res.render('pages/bad-request');
         })
     
+})
+
+
+Routes.get('/departments', (req,res,next) => {
+    var data = {
+        'title' : 'departments'
+    }
+    res.render('pages/departments' , data)
+})
+
+
+Routes.get('/health-facilities', (req,res,next) => {
+    var data = {
+        'title' : 'health-facilities'
+    }
+    res.render('pages/health-facilities' , data)
 })
 
 
