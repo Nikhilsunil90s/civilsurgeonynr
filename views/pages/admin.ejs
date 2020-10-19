@@ -58,10 +58,27 @@
             <div class="row ">
                
                 <div class="col-lg-12 d-flex justify-content-center">
-                    <form class="w-100" action="upload-gallery" method="POST"  class="form-group" id="galleryform">
-                        <input type="text" class="form-control mb-2" name="title"  placeholder="Title" required>
-                        <input type="text" class="form-control mb-2" name="image"  placeholder="Image Url" required>
-                        <textarea class="form-control mb-2" name="desc" rows="10" placeholder="Description" required>
+                    <form class="w-100" id="galleryform">
+                        <input type="text" class="form-control mb-2 gallery-title" name="title"  placeholder="Title" required>
+                        <div class="row">
+                            <div class="col-12 ">
+                                <div class="row mb-2">
+                                    <div class="col-12 text-right">
+                                        <button type="button" class="btn btn-primary add-image">Add</button>
+                                    </div>
+                                </div>
+                                <div class="image-container">
+                                    <div class="row ">
+                                        <div class="col-12">
+                                            <input type="text" class="form-control mb-2" name="image"  placeholder="Image Url" required>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <textarea class="form-control mb-2 gallery-description" name="desc" rows="10" placeholder="Description" required>
 
                         </textarea>
                         <script>
@@ -97,22 +114,81 @@
             $("#covidfile").on('change' , function(){
                 $('.upload-button').attr('disabled' , false);
             })
+          
+            var count = 0;
 
+            $('.add-image').on('click', function() {
+                let imageInput = `
+                    <div class="row ">
+                    <div class="col-11">
+                        <input type="text" class="form-control mb-2" name="image"  placeholder="Image Url" required>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-danger delete">Del.</button>
+                     </div>
+                     </div>   
+                `
 
-            $('#galleryform').on('submit', () => {
+                if(count >3) {
+                    alert('Only 5 iamges are allowed at a time')
+                    return
+                } else {
+                    count = count +1
+                }
+                $('.image-container').append(imageInput)
+            })
+
+            
+            $('.image-container').on('click', '.delete', function(e) {
+                e.preventDefault();
+                count = count -1
+
+                console.log(count)
+                $(this)[0].closest('.row').remove()
+            });
+
+            $('#galleryform').on('submit', function(e) {
+                e.preventDefault();
+
+                let images = $('input[name="image"]')
+
+                let data = {}
+                for (let i=0 ;i <images.length ;i++) {
+                    
+                    let image = images[i].value.trim()
+
+                    let endIndex = image.indexOf('/view')
+                    let startIndex = image.indexOf('file/d') +7
+
+                    data[`image${i}`] =  'https://drive.google.com/uc?export=view&id=' +image.slice(startIndex, endIndex) 
+                }
+
+                data['total'] = images.length;
+                data['title'] = $('.gallery-title').val();
+                data['description'] =  '<pre>' + $('.gallery-description').val() + '</pre>'
+
                 $('.gallery-upload-button').attr('disabled', true);
                 $('.gallery-upload-button').attr( 'val', 'Loading..');
                 
+                $.ajax({
+                    url: '/upload-gallery',
+                    method: 'POST',
+                    data: data,
+                    success: function(response) {
+                        console.log(response)
+                        $('.gallery-upload-button').attr('disabled', false);
+                        $('.gallery-upload-button').attr( 'val', 'Upload Gallery!');
+                        
+                        window.location.href= "/success"
+                    },
+                    error: function(err) {
+                        console.log(err)
+                        $('.gallery-upload-button').attr('disabled', false);
+                        $('.gallery-upload-button').attr( 'val', 'Upload Gallery!');
+                
+                    }
+                })
             })
         })
     </script>
 <%- include('../partials/bottom') %>
-<!-- 
-<div class="row" style="margin-top: 300px; text-align: center;">
-    <div class="col-lg-12">
-        <form action="covid-csv" method="POST" enctype="multipart/form-data">
-            <input type="file" name = "covidcsv">
-            <input type="submit" value="Ok!">
-        </form>
-    </div>
-</div> -->

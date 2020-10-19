@@ -1,10 +1,6 @@
 <%- include('../partials/top') %>
 
-    <!-- Preloader Starts -->
-    <div class="preloader">
-        <div class="spinner"></div>
-    </div>
-    <!-- Preloader End -->
+    
 
 <%- include('../partials/header') %>
   
@@ -13,9 +9,6 @@
 <%- include ('./banner') %>
 
 <!-- Banner Area End -->
-
-   
-
 
     <!-- Contact Form Starts -->
     <section class="contact-form section-padding3">
@@ -27,15 +20,19 @@
                 </div>
                 <div class="row">
 
-                    <div class="col-lg-5 mt-5">
-                        <div class="welcome-img">
-                            <img height="280" src="<%= gallery.image %>" alt="" style="border: 2px solid grey">
-                        </div>
+                    <div class="col-lg-3 mt-5">
+                        <% for (let i=0; i< gallery.image.length ; i++) { %>
+                            <div class="welcome-img mb-1">
+                                <img height="180" src="<%= gallery.image[i] %>" alt="" style="border: 2px solid grey">
+                            </div>
+                        <% }%>
+                        
+                        
                     </div>
-                    <div class="col-lg-7">
+                    <div class="col-lg-9">
                         <div class="welcome-text mt-5 mt-lg-0">
                             <h2><%= gallery.title %></h2>
-                            <p class="pt-2 text-justify">
+                            <p class="pt-2 text-justify desc text-nowrap" >
                                 <%= gallery.desc %>    
                             </p>
                             <br>
@@ -72,6 +69,17 @@
     <script src="/public/js/vendor/gmaps.min.js"></script>
     <script src="/public/js/main.js"></script>
 
+    <style>
+        pre {
+            white-space:pre-wrap!important
+        }
+    </style>
+    <script>
+        jQuery(() =>{
+           let x =  $('.desc').text()
 
+           $('.desc').html(x)
+        })
+    </script>
 <%- include('../partials/bottom') %>
 

@@ -13,6 +13,7 @@ const Gallery = require('../models/gallery')
 const multer = require('multer');
 const csv = require('csvtojson');
 const isAuthenticated = require('../middleware/isAuthenticated');
+const gallery = require('../models/gallery');
 
 
 // var storage = multer.diskStorage({dest : 'uploads/' , filename : (req, file, cb) => {
@@ -34,21 +35,21 @@ var upload  = multer({storage : storage});
 
 
 Routes.post("/tally-upload" , isAuthenticated, (req,res , next) => {
-    console.log( req.body);
     const tally = new Tally({
         total_sample_taken : req.body.sample_taken,
         positive_reported : req.body.positive_reported,
         patient_under_treatment: req.body.under_treatment,
         negative_reported: req.body.negative_reported      
     })
-    console.log(tally);
-    tally.save();
+    tally.save()
     return res.render("pages/success")
 })
 
 
 Routes.get('/tally', isAuthenticated,(req,res,next) => {
-    res.render('pages/tally');
+    res.render('pages/tally', {
+        title: 'tally'
+    });
 })
 
 Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req,res,next) => {
@@ -120,9 +121,11 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req
     if(await isCompleted) {
         fs.unlinkSync(req.file.path);
     }
+})
 
+Routes.get('/success', (req,res,next) => {
+    return res.render("pages/success")
 
-    
 })
  
 Routes.get('/admin', isAuthenticated,(req,res,next) => {
@@ -133,20 +136,26 @@ Routes.get('/admin', isAuthenticated,(req,res,next) => {
 })
 
 Routes.post('/upload-gallery', isAuthenticated,(req,res,next) => {
-    let gallery  = new Gallery({
-        title: req.body.title,
-        image: req.body.image,
-        desc: req.body.desc
+    const {title , description, total} = req.body;
+    images = [];
+    for (let i=0; i<parseInt(total); i++) {
+            images.push(req.body[`image${i}`])
+    }
+   
+    let gallery = new Gallery({
+        title: title,
+        desc: description,
+        image: images
     })
 
-    gallery 
+
+    gallery
         .save()
         .then(() => {
-            return res.render("pages/success")
+            return res.status(200).json({'msg': 'Gallery uploaded successfully!'})
         })
         .catch(err => {
-            return res.render("pages/bad-request")
-
+            return res.status(500).json({'error': 'INTERNAL_SERVER', 'msg': 'error in uploading gallery!'})
         })
 })
 
