@@ -390,6 +390,10 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2
         position: relative
     }
 
+    #mobile-nav ul li ul {
+        display: block !important;
+    }
+
     #mobile-nav ul li a {
         color: #fff;
         font-size: 13px;
