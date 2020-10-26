@@ -103,6 +103,27 @@ Routes.get('/gallery-details/:id', (req,res,next) => {
     
 })
 
+Routes.get("/covid-dch" , (req,res,next) => {
+    var data = {
+        'title' : 'covid-dch'
+    }
+    res.render('pages/covid-dch' , data)
+})
+
+Routes.get("/covid-dchc" , (req,res,next) => {
+    var data = {
+        'title' : 'covid-dchc'
+    }
+    res.render('pages/covid-dchc' , data)
+})
+
+Routes.get("/covid-dccc" , (req,res,next) => {
+    var data = {
+        'title' : 'covid-dccc'
+    }
+    res.render('pages/covid-dccc' , data)
+})
+
 
 Routes.get('/departments', (req,res,next) => {
     var data = {
