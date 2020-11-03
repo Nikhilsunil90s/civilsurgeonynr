@@ -124,7 +124,9 @@ Routes.post('/covid-csv', isAuthenticated, upload.single('covidcsv'), async (req
 })
 
 Routes.get('/success', (req,res,next) => {
-    return res.render("pages/success")
+    return res.render("pages/success",{
+        title: ''
+    })
 
 })
  
@@ -162,7 +164,8 @@ Routes.post('/upload-gallery', isAuthenticated,(req,res,next) => {
 
 Routes.get('/signup', (req,res,next) => {
     res.render('pages/signup', {
-        errorMessage: ''
+        errorMessage: '',
+        title: ''
     });
 })
 
@@ -222,7 +225,8 @@ Routes.post('/signin', (req,res,next) => {
         .then((user) => {
             if (!user) {
                 return res.render('pages/signin', {
-                    errorMessage : 'User Not Exists!'
+                    errorMessage : 'User Not Exists!',
+                    title: ''
                 })
             }
 
@@ -231,7 +235,8 @@ Routes.post('/signin', (req,res,next) => {
                 .then((doMatch) => {
                     if(!doMatch) {
                         return res.render('pages/signin', {
-                            errorMessage : 'Incorrect Password!'
+                            errorMessage : 'Incorrect Password!',
+                            title: ''
                         })
                     }
 
@@ -243,7 +248,8 @@ Routes.post('/signin', (req,res,next) => {
                 })  
                 .catch(err => {
                      return res.render('pages/signin', {
-                        errorMessage :'Internal Server Error!'
+                        errorMessage :'Internal Server Error!',
+                        title: ''
                     })
                 })
         })
