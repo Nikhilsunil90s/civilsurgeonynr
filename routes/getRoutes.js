@@ -141,22 +141,6 @@ Routes.get('/health-facilities', (req,res,next) => {
 })
 
 
-Routes.get('/departments', (req,res,next) => {
-    var data = {
-        'title' : 'departments'
-    }
-    res.render('pages/departments' , data)
-})
-
-
-Routes.get('/health-facilities', (req,res,next) => {
-    var data = {
-        'title' : 'health-facilities'
-    }
-    res.render('pages/health-facilities' , data)
-})
-
-
 
 Routes.get('/covid', async (req,res,next) => {
     var result = await tally.find()
