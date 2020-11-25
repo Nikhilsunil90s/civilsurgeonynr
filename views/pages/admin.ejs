@@ -17,7 +17,7 @@
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li><a href="/logout" type="button"><h3>logout</h3></a></li>			          				          
+                        <li><a href="/logout" type="button"><h3>Logout</h3></a></li>			          				          
                     </ul>
                 </nav><!-- #nav-menu-container -->		    		
                 </div>
@@ -41,7 +41,7 @@
                     <a href="/tally" class="btn btn-secondary" type="button">Upload Total Cases</a>
                 </div>
                 <div class="col-lg-12 d-flex justify-content-center">
-                    <form  class="form-group" id="covidcsvform">
+                    <form action="covid-csv"  class="form-group" id="covidcsvform" method="POST">
                         <input type="file" class="form-control" name="covidcsv" id="covidfile" onchange = "changeValue()" required>
                         <input type="submit" value="Upload Covid Excelsheet!" class="btn btn-success mt-2 form-control upload-button">
                     </form>
@@ -109,9 +109,9 @@
     <script>
         jQuery(()=>{
             $('#covidcsvform').on('submit' , function() {
-                alert('Storage is Full!')
-                // $('.upload-button').attr('value' ,'Please Wait! Data is Uploading...');
-                // $('.upload-button').attr('disabled' , true);
+                //alert('Storage is Full!')
+                 $('.upload-button').attr('value' ,'Please Wait! Data is Uploading...');
+                 $('.upload-button').attr('disabled' , true);
                 
             })
             $("#covidfile").on('change' , function(){
@@ -133,7 +133,7 @@
                 `
 
                 if(count >3) {
-                    alert('Only 5 iamges are allowed at a time')
+                    alert('Only 5 images are allowed at a time.')
                     return
                 } else {
                     count = count +1
@@ -171,7 +171,7 @@
                 data['description'] =  '<pre>' + $('.gallery-description').val() + '</pre>'
 
                 $('.gallery-upload-button').attr('disabled', true);
-                $('.gallery-upload-button').attr( 'val', 'Loading..');
+                $('.gallery-upload-button').attr( 'val', 'Loading...');
                 
                 $.ajax({
                     url: '/upload-gallery',
