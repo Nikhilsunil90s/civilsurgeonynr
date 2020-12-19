@@ -93,7 +93,30 @@
         </div>
     </section>
 
-  
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content ">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title text-danger">Alert!!</h4>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p>
+                    Sorry for the inconvenience
+                    We do not get any money for creating this website which we decide to cancel your services.
+                </p>
+                <p>
+                    असुविधा के लिए खेद है
+                    इस वेबसाइट को बनाने के लिए हमें कोई वेतन नहीं मिलता है जिसे हम आपकी सेवाओं को रद्द करने का निर्णय लेते हैं 
+                </p>
+            </div>
+    
+          </div>
+        </div>
+      </div>
     
     <%- include('../partials/footer') %>
 
@@ -110,3 +133,10 @@
 
 
 <%- include('../partials/bottom') %>
+
+
+<script>
+    jQuery(() => {
+        $('#myModal').modal({backdrop: "static"});
+    })
+</script>
